@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+    /* Customize the scrollbar width */
+    width: 6px;
+    height: 10px;
+    scrollbar-shadow-color: #555;
+}
+::-webkit-scrollbar-thumb {
+    /* Customize the scrollbar thumb */
+   
+    border-radius: 8px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+  .draggable-item {
+    width: 10rem; /* Ensure this matches your card size */
+    height: 10rem;
+
+    box-sizing: border-box; /* Ensure padding is included in dimensions */
+  }
