@@ -8,7 +8,7 @@ const PartySlots = ({ party }) => {
     const placeholders = Array.from({ length: maxSlots }, (_, i) => i+1);
 
     return (
-      <div className="flex justify-around gap-4">
+      <div className="flex justify-around gap-4 border m-5">
           {placeholders.map((_, index) => (
               <Droppable key={index} droppableId={`party-slot-${index}`}>
                   {(provided, snapshot) => (
@@ -16,7 +16,7 @@ const PartySlots = ({ party }) => {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           className={`party-slot w-40 h-40 border rounded-lg p-2 transition-all ${
-                              snapshot.isDraggingOver ? 'bg-indigo-500' : 'border-dashed border-gray-400'
+                              snapshot.isDraggingOver ? 'bg-indigo-500' : 'border-dashed border-gray-400 m-5'
                           }`}
                       >
                           {party[index] ? (
