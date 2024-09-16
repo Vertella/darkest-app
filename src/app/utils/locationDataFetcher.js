@@ -12,7 +12,7 @@ const fetchLocationData = async () => {
         'X-Access-Key': apiKey,
       },
     });
-    return response.data.record; // Adjust based on your data structure
+    return response.data.record.locations; // Adjust based on your data structure
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error; // Re-throw the error for handling in the calling component
