@@ -6,10 +6,13 @@ import { useState, useEffect } from "react";
 import PartySlots from "../components/PartySlots";
 import Location from "../components/Location"
 import LocationPartyAnalysis from "../components/LocationPartyAnalysis";
+import fetchLocationData from "../utils/locationDataFetcher";
 
 export default function PartyPlannerPage() {
   const [adventurerList, setAdventurerList] = useState([]);
   const [party, setParty] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +20,19 @@ export default function PartyPlannerPage() {
       setAdventurerList(adventurers);
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const getLocations = async () => {
+      try {
+        const fetchedLocations = await fetchLocationData();
+        setLocations(fetchedLocations);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getLocations();
   }, []);
 
   const handleOnDragEnd = (result) => {
@@ -92,8 +108,8 @@ export default function PartyPlannerPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900">
-      <header className="bg-gray-800 text-white p-4">
+    <div className="flex flex-col min-h-screen bg-zinc-950">
+      <header className="bg-zinc-800 text-white p-4">
         <div className="container mx-auto text-center">
           <h1 className="text-2xl font-bold">Adventure Planner</h1>
         </div>
@@ -101,10 +117,17 @@ export default function PartyPlannerPage() {
 
       <main className="flex-grow container mx-auto p-6">
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <div className="flex">
-            <Location />
+          <div className="flex bg-zinc-800 rounded-lg max-w-fit">
+          <Location
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+              locations={locations}
+            />
             <PartySlots party={party} />
           </div>
+
+          <LocationPartyAnalysis selectedLocation={selectedLocation} party={party} />
+
           {/* Adventurers Droppable List */}
           <Droppable droppableId="adventurers">
             {(provided) => (
@@ -141,7 +164,12 @@ export default function PartyPlannerPage() {
             )}
           </Droppable>
         </DragDropContext>
+
+        {/* Pass selectedLocation and party to LocationPartyAnalysis */}
+        
+        
       </main>
     </div>
   );
+  
 }

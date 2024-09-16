@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const LocationPartyAnalysis = ({ selectedLocation, party }) => {
+    
   return (
-    <div className="mt-6 bg-gray-800 p-4 rounded-lg shadow-md">
+    <div className="mt-6 bg-zinc-800 p-4 rounded-lg shadow-md max-w-fit">
       <h2 className="text-xl text-white font-bold">Party Analysis</h2>
 
       {selectedLocation ? (
