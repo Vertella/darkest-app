@@ -18,9 +18,28 @@
     background: #555;
 }
 
-  .draggable-item {
-    width: 10rem; /* Ensure this matches your card size */
-    height: 10rem;
+.draggable-item {
+  width: 10rem; /* Ensure this matches your card size */
+  height: 10rem;
 
-    box-sizing: border-box; /* Ensure padding is included in dimensions */
+  box-sizing: border-box; /* Ensure padding is included in dimensions */
+}
+
+/* src/styles/globals.css */
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
   }
+
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .flipped .transform-style-preserve-3d {
+    transform: rotateY(180deg);
+  }
+}
