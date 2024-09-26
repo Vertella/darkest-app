@@ -12,7 +12,7 @@ export default function PartyPlannerPage() {
   const [adventurerList, setAdventurerList] = useState([]);
   const [party, setParty] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,54 +50,58 @@ export default function PartyPlannerPage() {
     // Moving within the same list (either adventurers or party)
     if (sourceId === destinationId) {
       if (sourceId.startsWith("party-slot")) {
+        // Swapping within the party
         const updatedParty = Array.from(party);
-        const [movedItem] = updatedParty.splice(sourceIndex, 1);
-        updatedParty.splice(destinationIndex, 0, movedItem);
-        console.log("Updated party:", updatedParty);
+        // Swap the dragged and destination adventurers
+        const [movedItem] = updatedParty[sourceIndex];
+        updatedParty[sourceIndex] = updatedParty[destinationIndex];
+        updatedParty[destinationIndex] = [movedItem];
+        console.log("Swapped party:", updatedParty);
         setParty(updatedParty);
+
       } else if (sourceId === "adventurers") {
         const updatedAdventurers = Array.from(adventurerList);
-        const [movedItem] = updatedAdventurers.splice(sourceIndex, 1);
-        updatedAdventurers.splice(destinationIndex, 0, movedItem);
-        console.log("Updated adventurers:", updatedAdventurers);
+        const [movedItem] = updatedAdventurers[sourceIndex];
+        updatedAdventurers[sourceIndex] = updatedAdventurers[destinationIndex];
+        updatedAdventurers[destinationIndex] = movedItem;
+        console.log("Swapped adventurers:", updatedAdventurers);
+
         setAdventurerList(updatedAdventurers);
       }
     } else {
-      // Moving between adventurers and party, or party slots
+      // Moving between different lists like adventurers and party
       if (
-        sourceId === "adventurers" &&
-        destinationId.startsWith("party-slot")
-      ) {
+        sourceId === "adventurers" && destinationId.startsWith("party-slot")) {
         const updatedAdventurers = Array.from(adventurerList);
         const [movedItem] = updatedAdventurers.splice(sourceIndex, 1);
         const updatedParty = Array.from(party);
 
-        if (!updatedParty[destinationIndex]) {
+        const replacedAdventurer = updatedParty[destinationIndex];
+        if (replacedAdventurer) {
+          updatedAdventurers.push(replacedAdventurer);
+        }
+
           updatedParty[destinationIndex] = movedItem;
           setParty(updatedParty);
           setAdventurerList(updatedAdventurers);
           console.log("Updated party after adding:", updatedParty);
-        }
-      } else if (
-        sourceId.startsWith("party-slot") &&
-        destinationId === "adventurers"
-      ) {
+
+      //party to adventurelist
+      } else if (sourceId.startsWith("party-slot") && destinationId === "adventurers") {
         const updatedParty = Array.from(party);
         const [movedItem] = updatedParty.splice(sourceIndex, 1);
         const updatedAdventurers = Array.from(adventurerList);
         updatedAdventurers.splice(destinationIndex, 0, movedItem);
-        console.log("Updated party after removing:", updatedParty);
-        console.log("Updated adventurers after adding:", updatedAdventurers);
         setParty(updatedParty);
         setAdventurerList(updatedAdventurers);
       } else if (
-        sourceId.startsWith("party-slot") &&
-        destinationId.startsWith("party-slot")
+        //party slot to party slot
+        sourceId.startsWith("party-slot") && destinationId.startsWith("party-slot")
       ) {
         const updatedParty = Array.from(party);
-        const [movedItem] = updatedParty.splice(sourceIndex, 1);
-        updatedParty.splice(destinationIndex, 0, movedItem);
-        console.log("Updated party after reordering:", updatedParty);
+        const temp = updatedParty[sourceIndex];
+        updatedParty[sourceIndex] = updatedParty[destinationIndex];
+        updatedParty[destinationIndex] = temp;
         setParty(updatedParty);
       }
     }
@@ -117,25 +121,34 @@ export default function PartyPlannerPage() {
 
       <main className="flex-grow container mx-auto p-6">
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <div className="flex bg-zinc-800 rounded-lg max-w-fit">
+          <div className="flex flex-row gap-4">
+          <div className="flex flex-col w-2/3">
+          <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg max-w-fit">
           <Location
               selectedLocation={selectedLocation}
-              setSelectedLocation={setSelectedLocation}
+              setSelectedLocation={(location) => setSelectedLocation(location)}
               locations={locations}
             />
+            <div className="flex flex-col">
+              <h1 className=" text-center font-bold text-2xl md:pt-4 text-white">
+              {selectedLocation ? selectedLocation.location_name : "Where to, adventurer?"}
+                </h1>
+                <p className="text-white text-center font-light italic">{selectedLocation ? selectedLocation.description : ""}</p>
             <PartySlots party={party} />
+            </div>
           </div>
 
           <LocationPartyAnalysis selectedLocation={selectedLocation} party={party} />
-
+          </div>
           {/* Adventurers Droppable List */}
+          <div className="flex w-1/3">
           <Droppable droppableId="adventurers">
             {(provided) => (
               <div
-                className="flex flex-wrap gap-4"
+                className="flex flex-wrap gap-1 lg:gap-4"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{ minHeight: "200px" }}
+                style={{ minHeight: "48px" }}
               >
                 {adventurerList.length === 0 ? (
                   <div>No adventurers found.</div>
@@ -151,7 +164,7 @@ export default function PartyPlannerPage() {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="draggable-item"
+                          className="size-12 md:size-20 lg:size-28 xl:size-36"
                         >
                           <SimpleAdventurerCard adventurer={adventurer} />
                         </div>
@@ -163,6 +176,8 @@ export default function PartyPlannerPage() {
               </div>
             )}
           </Droppable>
+          </div>
+          </div>
         </DragDropContext>
 
         {/* Pass selectedLocation and party to LocationPartyAnalysis */}

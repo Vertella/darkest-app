@@ -8,7 +8,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party }) => {
 
       {selectedLocation ? (
         <>
-          <p className="text-gray-400">You selected: {selectedLocation}</p>
+          <p className="text-gray-400">You selected: {selectedLocation.location_name}</p>
 
           <div className="mt-4">
             {party.length > 0 ? (
@@ -16,7 +16,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party }) => {
                 {party.map((adventurer, index) => (
                   adventurer ? (
                     <li key={index}>
-                      {adventurer.name} - {adventurer.class} ({adventurer.role} in {selectedLocation})
+                      {adventurer.name} - {adventurer.class} ({adventurer.role} in {selectedLocation.location_name})
                     </li>
                   ) : (
                     <li key={index}>Empty Slot</li>

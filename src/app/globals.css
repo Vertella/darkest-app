@@ -25,6 +25,7 @@
   box-sizing: border-box; /* Ensure padding is included in dimensions */
 }
 
+
 /* src/styles/globals.css */
 @layer utilities {
   .perspective-1000 {

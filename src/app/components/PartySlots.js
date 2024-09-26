@@ -8,15 +8,15 @@ const PartySlots = ({ party }) => {
     const placeholders = Array.from({ length: maxSlots }, (_, i) => i+1);
 
     return (
-      <div className="flex justify-around gap-4 border border-zinc-700 rounded-sm m-5">
+      <div className="flex flex-wrap sm:flex-row md:flex-row justify-evenly  lg:gap-2 border border-zinc-700 rounded-sm m-1 lg:m-2">
           {placeholders.map((_, index) => (
               <Droppable key={index} droppableId={`party-slot-${index}`}>
                   {(provided, snapshot) => (
                       <div
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          className={`party-slot w-40 h-40 border rounded-lg transition-all ${
-                              snapshot.isDraggingOver ? 'bg-red-950' : 'border-dashed border-zinc-400 m-5'
+                          className={`party-slot size-12 md:size-20 lg:size-28 xl:size-36 self-center border rounded-lg transition-all m-1 lg:m-2 ${
+                              snapshot.isDraggingOver ? 'bg-red-950' : 'border-dashed border-zinc-400 m-1 lg:m-2'
                           }`}
                       >
                           {party[index] ? (
@@ -39,7 +39,7 @@ const PartySlots = ({ party }) => {
                           ) : (
                               // Placeholder content for empty slot
                               <div className="w-full h-full flex items-center justify-center">
-                                  <span className="text-gray-500 text-9xl">?</span>
+                                  <span className="text-gray-500 sm:text-3xl md:text-5xl lg:text-9xl">?</span>
                               </div>
                           )}
                           {provided.placeholder}

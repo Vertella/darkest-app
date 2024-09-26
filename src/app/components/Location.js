@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import fetchLocationData from "../utils/locationDataFetcher";
+import PropTypes from "prop-types";
 
 const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
   const handleChange = (event) => {
-    setSelectedLocation(event.target.value);
+    const selectedLocationName = (event.target.value);
+    const location = locations.find(
+      (loc) => loc.location_name === selectedLocationName
+    );
+    setSelectedLocation(location);
   };
 
   return (
@@ -16,7 +21,7 @@ const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
       </label>
       <select
         id="location-dropdown"
-        value={selectedLocation}
+        value={selectedLocation ? selectedLocation.location_name : ""}
         onChange={handleChange}
         className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
       >
@@ -31,10 +36,31 @@ const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
       </select>
 
       {selectedLocation && (
-        <p className="mt-2 text-gray-400">You selected: {selectedLocation}</p>
+        <div className="text-gray-400 max-w-52">
+        <p>Do bring: {selectedLocation.preferredDamage} </p>
+        <p>Avoid: {selectedLocation.avoidDamage} </p>
+        <p className="flex flex-wrap w-auto mt-4">{selectedLocation.notes} </p>
+        </div>
       )}
     </div>
   );
+};
+
+Location.propTypes = {
+  selectedLocation: PropTypes.object,
+  setSelectedLocation: PropTypes.func.isRequired,
+  locations: PropTypes.arrayOf(
+    PropTypes.shape({
+      location_name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      enemyTypes: PropTypes.array,
+      resistances: PropTypes.array,
+      bosses: PropTypes.array,
+      preferredDamage: PropTypes.array,
+      avoidDamage: PropTypes.array,
+      notes: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default Location;

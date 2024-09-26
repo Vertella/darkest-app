@@ -10,7 +10,7 @@ const SimpleAdventurerCard = ({ adventurer }) => {
 
   return (
     <div
-      className={`relative w-40 h-40 perspective-1000 cursor-pointer overflow-hidden rounded-lg ${
+      className={`relative size-12 md:size-20 lg:size-28 xl:size-36 perspective-1000 cursor-pointer overflow-hidden ${
         flipped ? "flipped" : ""
       }`}
       onClick={handleCardClick}
@@ -21,14 +21,14 @@ const SimpleAdventurerCard = ({ adventurer }) => {
           <img
             src={adventurer.image}
             alt={adventurer.class}
-            className="object-cover w-full h-full p-2"
+            className="object-cover w-full h-full transform scale-x-[-1]"
           />
         </div>
         {/* Back of the card */}
         <div className="absolute w-full h-full bg-zinc-700 text-white flex items-center justify-center transform rotate-y-180 backface-hidden">
           <div className="flex flex-col">
-          <p className="p-4 font-lg">{adventurer.class}</p>
-          <p className="p-4 font-light">{adventurer.description}</p>
+            <p className="p-2 font-lg text-center">{adventurer.class}</p>
+            <p className="p-2 font-light text-sm overflow-hidden">{adventurer.description}</p>
           </div>
           
         </div>
