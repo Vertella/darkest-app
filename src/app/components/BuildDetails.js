@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const BuildDetails = ({ build, adventurerClass }) => {
     return (
       <div className="flex flex-row space-x-4 overflow-auto pb-2">
@@ -6,7 +8,7 @@ const BuildDetails = ({ build, adventurerClass }) => {
           <h3 className="text-lg font-semibold">{build.role}</h3>
           <div className="flex mt-2 space-x-2">
             {build.abilities.map((ability, idx) => (
-              <img
+              <Image
                 key={idx}
                 src={`/${adventurerClass}/${ability}`}
                 alt={`Ability ${idx + 1}`}
@@ -21,7 +23,7 @@ const BuildDetails = ({ build, adventurerClass }) => {
           <h3 className="text-lg font-medium">Camping</h3>
           <div className="flex mt-2 space-x-2">
             {build.camping_skills.map((skill, idx) => (
-              <img
+              <Image
                 key={idx}
                 src={`/${adventurerClass}/${skill}.png`}
                 alt={`Camping Skill ${idx + 1}`}
@@ -36,9 +38,9 @@ const BuildDetails = ({ build, adventurerClass }) => {
           <h3 className="text-lg font-medium">Trinkets</h3>
           <div className="flex mt-2 space-x-2">
             {build.trinkets.map((trinket, idx) => (
-              <img
+              <Image
                 key={idx}
-                src={`../${adventurerClass}/${trinket}.png`}
+                src={`/${adventurerClass}/${trinket}.png`}
                 alt={`Trinket ${idx + 1}`}
                 className="w-12 h-12 object-cover"
               />
