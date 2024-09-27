@@ -38,7 +38,7 @@ const BuildDetails = ({ build, adventurerClass }) => {
             {build.trinkets.map((trinket, idx) => (
               <img
                 key={idx}
-                src={`/${adventurerClass}/${trinket}.png`}
+                src={`../${adventurerClass}/${trinket}.png`}
                 alt={`Trinket ${idx + 1}`}
                 className="w-12 h-12 object-cover"
               />
