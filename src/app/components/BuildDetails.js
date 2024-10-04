@@ -42,11 +42,9 @@ const BuildDetails = ({ build, adventurerClass }) => {
           <h3 className="text-lg font-medium">Trinkets</h3>
           <div className="flex mt-2 space-x-2">
             {build.trinkets.map((trinket, idx) => {
-              const imgSrc = `/${lowercaseFirstLetter(adventurerClass)}/${trinket}.png`;
-              console.log(`Trinket Image URL: ${imgSrc}`); // Debugging
               <Image
                 key={idx}
-                src={imgSrc}
+                src={`/${lowercaseFirstLetter(adventurerClass)}/${trinket}.png`}
                 alt={`Trinket ${idx + 1}`}
                 className="w-12 h-12 object-cover"
               />
