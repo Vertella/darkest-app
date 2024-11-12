@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 
 const BuildDetails = ({ build, adventurerClass }) => {
@@ -16,7 +17,9 @@ const BuildDetails = ({ build, adventurerClass }) => {
                 key={idx}
                 src={`/${lowercaseFirstLetter(adventurerClass)}/${ability}`}
                 alt={`Ability ${idx + 1}`}
-                className="w-12 h-12 object-cover"
+                width={48}  
+                height={48} 
+                className="object-cover"
               />
             ))}
           </div>
@@ -31,6 +34,8 @@ const BuildDetails = ({ build, adventurerClass }) => {
                 key={idx}
                 src={`/${lowercaseFirstLetter(adventurerClass)}/${skill}.png`}
                 alt={`Camping Skill ${idx + 1}`}
+                width={48}  
+                height={48}
                 className="w-12 h-12 object-cover"
               />
             ))}
@@ -41,14 +46,16 @@ const BuildDetails = ({ build, adventurerClass }) => {
         <div className="flex flex-col min-w-7 mr-4">
           <h3 className="text-lg font-medium">Trinkets</h3>
           <div className="flex mt-2 space-x-2">
-            {build.trinkets.map((trinket, idx) => {
+            {build.trinkets.map((trinket, idx) => (
               <Image
                 key={idx}
                 src={`/${lowercaseFirstLetter(adventurerClass)}/${trinket}.png`}
                 alt={`Trinket ${idx + 1}`}
+                width={48}  
+                height={48}
                 className="w-12 h-12 object-cover"
               />
-            })}
+            ))}
           </div>
         </div>
       </div>

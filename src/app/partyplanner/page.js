@@ -1,10 +1,10 @@
 "use client";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { fetchAdventurers } from "../utils/fetcher";
 import SimpleAdventurerCard from "../components/SimpleAdventurerCard";
 import { useState, useEffect } from "react";
 import PartySlots from "../components/PartySlots";
-import Location from "../components/Location";
+import Location from "../components/LocationSelector";
 import LocationPartyAnalysis from "../components/LocationPartyAnalysis";
 import fetchLocationData from "../utils/locationDataFetcher";
 import BuildDisplay from "../components/BuildDisplay";
@@ -14,6 +14,9 @@ export default function PartyPlannerPage() {
   const [party, setParty] = useState([]);
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [questLength, setQuestLength] = useState("");
+  const [draggedAdventurerSlots, setDraggedAdventurerSlots] = useState([]);
+  const [highlightedSlots, setHighlightedSlots] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +25,11 @@ export default function PartyPlannerPage() {
     };
     fetchData();
   }, []);
+
+  const handleOnDragStart = (result) => {
+    const draggedAdventurer = adventurerList[result.source.index];
+    setDraggedAdventurerSlots(draggedAdventurer.preferredSlots || []);
+  };
 
   useEffect(() => {
     const getLocations = async () => {
@@ -40,6 +48,9 @@ export default function PartyPlannerPage() {
     console.log("Drag result:", result);
     console.log("Current party:", party);
     console.log("Current adventurers:", adventurerList);
+    
+
+    
 
     if (!result.destination) return;
 
@@ -59,6 +70,7 @@ export default function PartyPlannerPage() {
         updatedParty[destinationIndex] = [movedItem];
         console.log("Swapped party:", updatedParty);
         setParty(updatedParty);
+        setDraggedAdventurerSlots([]);
       } else if (sourceId === "adventurers") {
         const updatedAdventurers = Array.from(adventurerList);
         const [movedItem] = updatedAdventurers[sourceIndex];
@@ -67,6 +79,7 @@ export default function PartyPlannerPage() {
         console.log("Swapped adventurers:", updatedAdventurers);
 
         setAdventurerList(updatedAdventurers);
+        setDraggedAdventurerSlots([]);
       }
     } else {
       // Moving between different lists like adventurers and party
@@ -86,6 +99,7 @@ export default function PartyPlannerPage() {
         updatedParty[destinationIndex] = movedItem;
         setParty(updatedParty);
         setAdventurerList(updatedAdventurers);
+        setDraggedAdventurerSlots([]);
         console.log("Updated party after adding:", updatedParty);
 
         //party to adventurelist
@@ -126,7 +140,7 @@ export default function PartyPlannerPage() {
       </header>
 
       <main className="flex-grow container mx-auto p-6">
-        <DragDropContext onDragEnd={handleOnDragEnd}>
+        <DragDropContext onDragStart={handleOnDragStart} onDragEnd={handleOnDragEnd}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col w-2/3">
               <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg max-w-fit">
@@ -135,6 +149,7 @@ export default function PartyPlannerPage() {
                   setSelectedLocation={(location) =>
                     setSelectedLocation(location)
                   }
+                  setQuestLength={setQuestLength}
                   locations={locations}
                 />
                 <div className="flex flex-col">
@@ -146,13 +161,14 @@ export default function PartyPlannerPage() {
                   <p className="text-white text-center font-light italic">
                     {selectedLocation ? selectedLocation.description : ""}
                   </p>
-                  <PartySlots party={party} />
+                  <PartySlots party={party} highlightedSlots={draggedAdventurerSlots} />
                 </div>
               </div>
 
               <LocationPartyAnalysis
                 selectedLocation={selectedLocation}
                 party={party}
+                questLength={questLength}
               />
               <BuildDisplay party={party} className="text-white" />
             </div>

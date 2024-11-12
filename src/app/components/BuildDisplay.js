@@ -1,17 +1,26 @@
 // src/components/BuildDisplay.js
 
-import React, { useState, useEffect } from 'react';
-import BuildDetails from './BuildDetails';
+import React, { useState, useEffect } from "react";
+import BuildDetails from "./BuildDetails";
 
 const BuildDisplay = ({ party }) => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedBuilds, setSelectedBuilds] = useState([]);
 
+  // Function to map internal index to game position (right to left)
+  const mapIndexToGamePosition = (index) => {
+    const gamePositions = [3, 2, 1, 0]; // Darkest Dungeon: right to left
+    return gamePositions[index]; // Mapping index to the correct game position
+  };
+
   // Initialize selectedBuilds when party changes
   useEffect(() => {
-    const initialBuilds = party.map(adventurer => adventurer.builds && adventurer.builds.length > 0 ? 0 : null);
+    const initialBuilds = party.map((adventurer) =>
+      adventurer.builds && adventurer.builds.length > 0 ? 0 : null
+    );
     setSelectedBuilds(initialBuilds);
-    // Adjust selectedTab if necessary
+
+     // Ensure selectedTab is within bounds of party array
     if (selectedTab >= party.length) {
       setSelectedTab(party.length - 1 >= 0 ? party.length - 1 : 0);
     }
@@ -31,19 +40,22 @@ const BuildDisplay = ({ party }) => {
     <div className="mt-4">
       {/* Tab Headers */}
       <div className="flex border-b border-zinc-700 overflow-x-auto">
-        {party.map((adventurer, index) => (
+        {party.map((adventurer, index) => {
+          const gamePosition = mapIndexToGamePosition(index);
+          return (
           <button
             key={adventurer.id}
             onClick={() => handleTabClick(index)}
             className={`py-2 px-4 text-white whitespace-nowrap ${
               selectedTab === index
-                ? 'border-b-2 border-red-500'
-                : 'text-gray-400 hover:text-white'
+                ? "border-b-2 border-red-500"
+                : "text-gray-400 hover:text-white"
             }`}
           >
-            {`Build ${index + 1}: ${adventurer.class}`}
+            {`Position ${gamePosition + 1}: ${adventurer.class || "Unknown Class"}`}
           </button>
-        ))}
+        );
+        })}
       </div>
 
       {/* Build Details */}
@@ -51,31 +63,35 @@ const BuildDisplay = ({ party }) => {
         {party[selectedTab] ? (
           <>
             {/* Build Selector if multiple builds exist */}
-            {party[selectedTab].builds && party[selectedTab].builds.length > 1 && (
-              <div className="flex space-x-2 mb-2">
-                {party[selectedTab].builds.map((build, buildIdx) => (
-                  <button
-                    key={buildIdx}
-                    onClick={() => handleBuildChange(selectedTab, buildIdx)}
-                    className={`py-1 px-3 rounded ${
-                      selectedBuilds[selectedTab] === buildIdx
-                        ? 'bg-red-500 text-white'
-                        : 'bg-zinc-700 text-gray-300 hover:bg-zinc-600'
-                    }`}
-                  >
-                    Build {buildIdx + 1}
-                  </button>
-                ))}
-              </div>
-            )}
+            {party[selectedTab].builds &&
+              party[selectedTab].builds.length > 1 && (
+                <div className="flex space-x-2 mb-2">
+                  {party[selectedTab].builds.map((build, buildIdx) => (
+                    <button
+                      key={buildIdx}
+                      onClick={() => handleBuildChange(selectedTab, buildIdx)}
+                      className={`py-1 px-3 rounded ${
+                        selectedBuilds[selectedTab] === buildIdx
+                          ? "bg-red-500 text-white"
+                          : "bg-zinc-700 text-gray-300 hover:bg-zinc-600"
+                      }`}
+                    >
+                      Build {buildIdx + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             {/* Display the selected build */}
-            {party[selectedTab].builds && party[selectedTab].builds[selectedBuilds[selectedTab]] ? (
+            {party[selectedTab].builds &&
+            party[selectedTab].builds[selectedBuilds[selectedTab]] ? (
               <BuildDetails
                 build={party[selectedTab].builds[selectedBuilds[selectedTab]]}
                 adventurerClass={party[selectedTab].class}
               />
             ) : (
-              <div className="text-gray-500">No build available for this adventurer.</div>
+              <div className="text-gray-500">
+                No build available for this adventurer.
+              </div>
             )}
           </>
         ) : (

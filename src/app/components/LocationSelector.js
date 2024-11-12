@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import fetchLocationData from "../utils/locationDataFetcher";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
-  const handleChange = (event) => {
+const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLength }) => {
+
+  const handleLocationChange = (event) => {
     const selectedLocationName = (event.target.value);
     const location = locations.find(
       (loc) => loc.location_name === selectedLocationName
@@ -11,8 +11,15 @@ const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
     setSelectedLocation(location);
   };
 
+  // Handle quest length selection change
+  const handleQuestLengthChange = (event) => {
+    const selectedLength = event.target.value;
+    setQuestLength(selectedLength);
+  };
+
   return (
     <div className="bg-zinc-800 p-4 rounded-lg shadow-md mb-4">
+      {/* Location selection dropdown */}
       <label
         htmlFor="location-dropdown"
         className="block text-lg font-bold text-gray-300 mb-2"
@@ -22,7 +29,7 @@ const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
       <select
         id="location-dropdown"
         value={selectedLocation ? selectedLocation.location_name : ""}
-        onChange={handleChange}
+        onChange={handleLocationChange}
         className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
       >
         <option value="" disabled>
@@ -35,12 +42,34 @@ const Location = ({ selectedLocation, setSelectedLocation, locations }) => {
         ))}
       </select>
 
-      {selectedLocation && (
+        {/* Quest length selection dropdown */}
+        {selectedLocation && (
+          <>
+          <label
+            htmlFor="quest-length-dropdown"
+            className="block text-lg font-bold text-gray-300 mt-4"
+          >
+            Choose Quest Length:
+          </label>
+          <select
+            id="quest-length-dropdown"
+            value={selectedLocation.questLength}
+            onChange={handleQuestLengthChange}
+            className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+          >
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="long">Long</option>
+          </select>
+
+          {/* Displaying location-specific details */}
+
         <div className="text-gray-400 max-w-52">
         <p>Do bring: {selectedLocation.preferredDamage} </p>
         <p>Avoid: {selectedLocation.avoidDamage} </p>
         <p className="flex flex-wrap w-auto mt-4">{selectedLocation.notes} </p>
         </div>
+        </>
       )}
     </div>
   );
@@ -59,6 +88,26 @@ Location.propTypes = {
       preferredDamage: PropTypes.array,
       avoidDamage: PropTypes.array,
       notes: PropTypes.string,
+      provisions: PropTypes.shape({
+        short: PropTypes.arrayOf(
+          PropTypes.shape({
+            item: PropTypes.string,
+            quantity: PropTypes.string,
+          })
+        ),
+        medium: PropTypes.arrayOf(
+          PropTypes.shape({
+            item: PropTypes.string,
+            quantity: PropTypes.string,
+          })
+        ),
+        long: PropTypes.arrayOf(
+          PropTypes.shape({
+            item: PropTypes.string,
+            quantity: PropTypes.string,
+          })
+        ),
+      }),
     })
   ).isRequired,
 };

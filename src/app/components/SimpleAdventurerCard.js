@@ -1,5 +1,6 @@
 // src/components/SimpleAdventurerCard.js
 import React, { useState } from "react";
+import Image from 'next/image'
 
 const SimpleAdventurerCard = ({ adventurer }) => {
   const [flipped, setFlipped] = useState(true);
@@ -18,10 +19,12 @@ const SimpleAdventurerCard = ({ adventurer }) => {
       <div className="absolute w-full h-full transition-transform duration-500 transform-style-preserve-3d">
         {/* Front Face */}
         <div className="absolute w-full h-full bg-zinc-700 flex items-center justify-center">
-          <img
-            src={adventurer.image}
+          <Image
+            src={`/${adventurer.image}`}
             alt={adventurer.class}
-            className="object-cover w-full h-full transform scale-x-[-1]"
+            width={124}  
+            height={124}
+            className="object-cover transform scale-x-[-1]"
           />
         </div>
         {/* Back of the card */}

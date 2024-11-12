@@ -1,9 +1,9 @@
 // src/components/PartySlots.js
 import React from 'react';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from '@hello-pangea/dnd';
 import SimpleAdventurerCard from './SimpleAdventurerCard';
 
-const PartySlots = ({ party }) => {
+const PartySlots = ({ party, highlightedSlots = [] }) => {
     const maxSlots = 4;
     const placeholders = Array.from({ length: maxSlots }, (_, i) => i+1);
 
@@ -16,7 +16,8 @@ const PartySlots = ({ party }) => {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           className={`party-slot size-12 md:size-20 lg:size-28 xl:size-36 self-center border rounded-lg transition-all m-1 lg:m-2 ${
-                              snapshot.isDraggingOver ? 'bg-red-950' : 'border-dashed border-zinc-400 m-1 lg:m-2'
+                            highlightedSlots.includes(index) ? 'bg-yellow-500' :
+                            snapshot.isDraggingOver ? 'bg-red-950' : 'border-dashed border-zinc-400 m-1 lg:m-2'
                           }`}
                       >
                           {party[index] ? (
