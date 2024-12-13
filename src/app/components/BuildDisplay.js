@@ -15,12 +15,16 @@ const BuildDisplay = ({ party }) => {
 
   // Initialize selectedBuilds when party changes
   useEffect(() => {
+    console.log("Party:", party);
+    console.log("Selected Tab:", selectedTab);
     const initialBuilds = party.map((adventurer) =>
-      adventurer.builds && adventurer.builds.length > 0 ? 0 : null
+      adventurer?.builds?.length > 0 ? 0 : null
     );
+    console.log("Initial Builds:", initialBuilds);
+
     setSelectedBuilds(initialBuilds);
 
-     // Ensure selectedTab is within bounds of party array
+    // Ensure selectedTab is within bounds of party array
     if (selectedTab >= party.length) {
       setSelectedTab(party.length - 1 >= 0 ? party.length - 1 : 0);
     }
@@ -42,19 +46,34 @@ const BuildDisplay = ({ party }) => {
       <div className="flex border-b border-zinc-700 overflow-x-auto">
         {party.map((adventurer, index) => {
           const gamePosition = mapIndexToGamePosition(index);
+
+          if (!adventurer) {
+            return (
+              <button
+                key={`empty-${index}`}
+                className="py-2 px-4 text-gray-500 whitespace-nowrap"
+                disabled
+              >
+                {`Position ${gamePosition + 1}: No Adventurer`}
+              </button>
+            );
+          }
+
           return (
-          <button
-            key={adventurer.id}
-            onClick={() => handleTabClick(index)}
-            className={`py-2 px-4 text-white whitespace-nowrap ${
-              selectedTab === index
-                ? "border-b-2 border-red-500"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            {`Position ${gamePosition + 1}: ${adventurer.class || "Unknown Class"}`}
-          </button>
-        );
+            <button
+              key={adventurer.id || index}
+              onClick={() => handleTabClick(index)}
+              className={`py-2 px-4 text-white whitespace-nowrap ${
+                selectedTab === index
+                  ? "border-b-2 border-red-500"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              {`Position ${gamePosition + 1}: ${
+                adventurer.class || "Unknown Class"
+              }`}
+            </button>
+          );
         })}
       </div>
 
@@ -66,7 +85,7 @@ const BuildDisplay = ({ party }) => {
             {party[selectedTab].builds &&
               party[selectedTab].builds.length > 1 && (
                 <div className="flex space-x-2 mb-2">
-                  {party[selectedTab].builds.map((build, buildIdx) => (
+                  {party[selectedTab].builds.map((_, buildIdx) => (
                     <button
                       key={buildIdx}
                       onClick={() => handleBuildChange(selectedTab, buildIdx)}

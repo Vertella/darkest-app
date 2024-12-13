@@ -11,7 +11,7 @@ import BuildDisplay from "../components/BuildDisplay";
 
 export default function PartyPlannerPage() {
   const [adventurerList, setAdventurerList] = useState([]);
-  const [party, setParty] = useState([]);
+  const [party, setParty] = useState([null, null, null, null]);
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [questLength, setQuestLength] = useState("");
@@ -48,9 +48,6 @@ export default function PartyPlannerPage() {
     console.log("Drag result:", result);
     console.log("Current party:", party);
     console.log("Current adventurers:", adventurerList);
-    
-
-    
 
     if (!result.destination) return;
 
@@ -118,7 +115,7 @@ export default function PartyPlannerPage() {
         sourceId.startsWith("party-slot") &&
         destinationId.startsWith("party-slot")
       ) {
-        const updatedParty = Array.from(party);
+        const updatedParty = [...party];
         const temp = updatedParty[sourceIndex];
         updatedParty[sourceIndex] = updatedParty[destinationIndex];
         updatedParty[destinationIndex] = temp;
@@ -135,15 +132,18 @@ export default function PartyPlannerPage() {
     <div className="flex flex-col min-h-screen bg-zinc-950">
       <header className="bg-zinc-800 text-white p-4">
         <div className="container mx-auto text-center">
-          <h1 className="text-2xl font-bold">Adventure Planner</h1>
+          <h1 className="text-2xl font-bold">Darkest Helper</h1>
         </div>
       </header>
 
       <main className="flex-grow container mx-auto p-6">
-        <DragDropContext onDragStart={handleOnDragStart} onDragEnd={handleOnDragEnd}>
+        <DragDropContext
+          onDragStart={handleOnDragStart}
+          onDragEnd={handleOnDragEnd}
+        >
           <div className="flex flex-row gap-4">
             <div className="flex flex-col w-2/3">
-              <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg max-w-fit">
+              <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg w-full">
                 <Location
                   selectedLocation={selectedLocation}
                   setSelectedLocation={(location) =>
@@ -161,7 +161,10 @@ export default function PartyPlannerPage() {
                   <p className="text-white text-center font-light italic">
                     {selectedLocation ? selectedLocation.description : ""}
                   </p>
-                  <PartySlots party={party} highlightedSlots={draggedAdventurerSlots} />
+                  <PartySlots
+                    party={party}
+                    highlightedSlots={draggedAdventurerSlots}
+                  />
                 </div>
               </div>
 

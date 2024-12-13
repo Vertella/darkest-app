@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
   return (
-    <div className="mt-6 bg-zinc-800 p-4 rounded-lg shadow-md max-w-fit">
+    <div className="mt-6 bg-zinc-800 p-4 rounded-lg shadow-md w-full">
       <h2 className="text-xl text-white font-bold">Summary</h2>
 
       {selectedLocation ? (
-        <>
+        <div className="">
           <p className="text-gray-400">
-            Going to {selectedLocation.location_name}
+            Heading into {selectedLocation.location_name}
           </p>
 
           <div className="flex">
@@ -53,7 +53,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
               )}
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <p className="text-gray-400">No location selected.</p>
       )}
