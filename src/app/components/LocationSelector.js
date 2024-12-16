@@ -22,7 +22,7 @@ const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLe
       {/* Location selection dropdown */}
       <label
         htmlFor="location-dropdown"
-        className="block text-lg font-bold text-gray-300 mb-2"
+        className="block text-sm lg:text-lg font-bold text-gray-300 mb-2"
       >
         Choose a Location:
       </label>
@@ -30,7 +30,7 @@ const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLe
         id="location-dropdown"
         value={selectedLocation ? selectedLocation.location_name : ""}
         onChange={handleLocationChange}
-        className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+        className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
       >
         <option value="" disabled>
           Select a destination
@@ -47,7 +47,7 @@ const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLe
           <>
           <label
             htmlFor="quest-length-dropdown"
-            className="block text-lg font-bold text-gray-300 mt-4"
+            className="block text-sm lg:text-lg font-bold text-gray-300 mt-4"
           >
             Choose Quest Length:
           </label>
@@ -67,7 +67,6 @@ const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLe
         <div className="text-gray-400 max-w-52">
         <p>Do bring: {selectedLocation.preferredDamage} </p>
         <p>Avoid: {selectedLocation.avoidDamage} </p>
-        <p className="flex flex-wrap w-auto mt-4">{selectedLocation.notes} </p>
         </div>
         </>
       )}

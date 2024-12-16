@@ -17,6 +17,7 @@ export default function PartyPlannerPage() {
   const [questLength, setQuestLength] = useState("");
   const [draggedAdventurerSlots, setDraggedAdventurerSlots] = useState([]);
   const [highlightedSlots, setHighlightedSlots] = useState([]);
+  const [isMobileMenuVisible, setMobileMenuVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,21 +129,21 @@ export default function PartyPlannerPage() {
     return <div>Error: Data is not available</div>;
   }
 
+  const toggleMobileMenu = () => {
+    setMobileMenuVisible((prev) => !prev);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950">
-      <header className="bg-zinc-800 text-white p-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-2xl font-bold">Darkest Helper</h1>
-        </div>
-      </header>
+     
 
       <main className="flex-grow container mx-auto p-6">
         <DragDropContext
           onDragStart={handleOnDragStart}
           onDragEnd={handleOnDragEnd}
         >
-          <div className="flex flex-row gap-4">
-            <div className="flex flex-col w-2/3">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col w-full md:w-2/3">
               <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg w-full">
                 <Location
                   selectedLocation={selectedLocation}
@@ -153,12 +154,12 @@ export default function PartyPlannerPage() {
                   locations={locations}
                 />
                 <div className="flex flex-col">
-                  <h1 className=" text-center font-bold text-2xl md:pt-4 text-white">
+                  <h1 className=" text-center font-bold text-base md:text-2xl md:pt-4 text-white">
                     {selectedLocation
                       ? selectedLocation.location_name
                       : "Where to, adventurer?"}
                   </h1>
-                  <p className="text-white text-center font-light italic">
+                  <p className="text-xs text-white text-center font-light italic">
                     {selectedLocation ? selectedLocation.description : ""}
                   </p>
                   <PartySlots
@@ -176,41 +177,56 @@ export default function PartyPlannerPage() {
               <BuildDisplay party={party} className="text-white" />
             </div>
             {/* Adventurers Droppable List */}
-            <div className="flex w-1/3">
-              <Droppable droppableId="adventurers">
-                {(provided) => (
-                  <div
-                    className="flex flex-wrap gap-1 lg:gap-4"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{ minHeight: "48px" }}
-                  >
-                    {adventurerList.length === 0 ? (
-                      <div>No adventurers found.</div>
-                    ) : (
-                      adventurerList.map((adventurer, index) => (
-                        <Draggable
-                          key={`adventurer-${adventurer.id}`}
-                          draggableId={`adventurer-${adventurer.id}`}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="size-12 md:size-20 lg:size-28 xl:size-36"
-                            >
-                              <SimpleAdventurerCard adventurer={adventurer} />
-                            </div>
-                          )}
-                        </Draggable>
-                      ))
-                    )}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+            <div className="md: w-1/3">
+              <button
+                className="md:hidden bg-zinc-700 text-white p-2 rounded-lg mb-2 flex items-center justify-center"
+                onClick={toggleMobileMenu}
+              >
+                {isMobileMenuVisible
+                  ? "▲ Hide Adventurers"
+                  : "▼ Show Adventurers"}
+              </button>
+
+              <div
+                className={`${
+                  isMobileMenuVisible ? "block" : "hidden"
+                } md:block bg-zinc-800 p-4 rounded-lg`}
+              >
+                <Droppable droppableId="adventurers">
+                  {(provided) => (
+                    <div
+                      className="flex flex-wrap gap-2"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{ minHeight: "48px" }}
+                    >
+                      {adventurerList.length === 0 ? (
+                        <div>No adventurers found.</div>
+                      ) : (
+                        adventurerList.map((adventurer, index) => (
+                          <Draggable
+                            key={`adventurer-${adventurer.id}`}
+                            draggableId={`adventurer-${adventurer.id}`}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="size-12 md:size-20 lg:size-28 xl:size-36"
+                              >
+                                <SimpleAdventurerCard adventurer={adventurer} />
+                              </div>
+                            )}
+                          </Draggable>
+                        ))
+                      )}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
             </div>
           </div>
         </DragDropContext>

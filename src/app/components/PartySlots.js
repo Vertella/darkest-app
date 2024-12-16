@@ -15,7 +15,7 @@ const PartySlots = ({ party, highlightedSlots = [] }) => {
                       <div
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          className={`party-slot size-12 md:size-20 lg:size-28 xl:size-36 self-center border rounded-lg transition-all m-1 lg:m-2 ${
+                          className={`party-slot size-12 md:size-20 lg:size-28 xl:size-36 self-center border rounded-lg transition-all md:m-1 lg:m-2 ${
                             highlightedSlots.includes(index) ? 'bg-yellow-500' :
                             snapshot.isDraggingOver ? 'bg-red-950' : 'border-dashed border-zinc-400 m-1 lg:m-2'
                           }`}

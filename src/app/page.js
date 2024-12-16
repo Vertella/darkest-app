@@ -5,6 +5,7 @@ import PartyPlanner from "./partyplanner/page";
 export default function Home() {
   return (
     <div>
+      <Navbar />
       <PartyPlanner />
       <Adventurers />
     </div>

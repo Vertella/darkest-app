@@ -31,7 +31,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
               </div>
             ) : (
               <p className="text-gray-300">
-                No provisions listed for this quest length.
+                No provisions listed for this quest.
               </p>
             )}
 
@@ -52,6 +52,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
                 <p>No adventurers in the party.</p>
               )}
             </div>
+            <div className="text-gray-300">{selectedLocation.notes} </div>
           </div>
         </div>
       ) : (
