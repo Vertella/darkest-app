@@ -35,7 +35,7 @@ const Location = ({
           id="location-dropdown"
           value={selectedLocation ? selectedLocation.location_name : ""}
           onChange={handleLocationChange}
-          className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2"
+          className="bg-zinc-700 text-sm lg:text-lg text-gray-300 border border-zinc-600 rounded-lg p-2 hover:cursor-pointer hover:bg-zinc-600"
         >
           <option value="" disabled>
             Select a destination
@@ -62,7 +62,7 @@ const Location = ({
               id="quest-length-dropdown"
               value={selectedLocation.questLength}
               onChange={handleQuestLengthChange}
-              className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+              className="bg-zinc-700 text-gray-300 border border-zinc-600 rounded-lg p-2 w-full hover:cursor-pointer hover:bg-zinc-600"
             >
               <option value="short">Short</option>
               <option value="medium">Medium</option>

@@ -15,15 +15,15 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
             {/* Display Provisions based on quest length */}
             {selectedLocation.provisions &&
             selectedLocation.provisions[questLength] ? (
-              <div className="mt-4">
+              <div className="mt-2 px-2 min-w-fit border rounded-md">
                 <h3 className="text-lg font-semibold text-white">
-                  Provisions:
+                  Provisions
                 </h3>
                 <ul className="text-gray-300">
                   {selectedLocation.provisions[questLength].map(
                     (provision, index) => (
                       <li key={index}>
-                        {provision.item}: {provision.quantity}
+                        {provision.item.charAt(0).toUpperCase() + provision.item.slice(1)}: {provision.quantity}
                       </li>
                     )
                   )}
@@ -41,7 +41,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
                   {party.map((adventurer, index) =>
                     adventurer ? (
                       <li key={index}>
-                        {adventurer.name} - {adventurer.class}
+                        {adventurer.name} - {adventurer.compatibility.compatibleWith}
                       </li>
                     ) : (
                       <li key={index}>Empty Slot</li>

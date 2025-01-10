@@ -63,7 +63,7 @@ const BuildDisplay = ({ party }) => {
             <button
               key={adventurer.id || index}
               onClick={() => handleTabClick(index)}
-              className={`py-2 px-4 text-white whitespace-nowrap ${
+              className={`py-2 px-4 text-gray-200 hover:text-white whitespace-nowrap hover:border-b-2 hover:border-red-500 ${
                 selectedTab === index
                   ? "border-b-2 border-red-500"
                   : "text-gray-400 hover:text-white"
