@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLength }) => {
-
+const Location = ({
+  selectedLocation,
+  setSelectedLocation,
+  locations,
+  setQuestLength,
+}) => {
   const handleLocationChange = (event) => {
-    const selectedLocationName = (event.target.value);
+    const selectedLocationName = event.target.value;
     const location = locations.find(
       (loc) => loc.location_name === selectedLocationName
     );
@@ -18,58 +22,62 @@ const Location = ({ selectedLocation, setSelectedLocation, locations, setQuestLe
   };
 
   return (
-    <div className="bg-zinc-800 p-4 rounded-lg shadow-md mb-4">
+    <div className="flex flex-row md:flex-col w-full bg-zinc-800 p-4 rounded-lg shadow-md mb-4 justify-center gap-2">
       {/* Location selection dropdown */}
-      <label
-        htmlFor="location-dropdown"
-        className="block text-sm lg:text-lg font-bold text-gray-300 mb-2"
-      >
-        Choose a Location:
-      </label>
-      <select
-        id="location-dropdown"
-        value={selectedLocation ? selectedLocation.location_name : ""}
-        onChange={handleLocationChange}
-        className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
-      >
-        <option value="" disabled>
-          Select a destination
-        </option>
-        {locations.map((location, index) => (
-          <option key={index} value={location.location_name}>
-            {location.location_name}
+      <div>
+        <label
+          htmlFor="location-dropdown"
+          className="block text-sm lg:text-lg font-bold text-gray-300 mb-2"
+        >
+          Choose a Location:
+        </label>
+        <select
+          id="location-dropdown"
+          value={selectedLocation ? selectedLocation.location_name : ""}
+          onChange={handleLocationChange}
+          className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+        >
+          <option value="" disabled>
+            Select a destination
           </option>
-        ))}
-      </select>
+          {locations.map((location, index) => (
+            <option key={index} value={location.location_name}>
+              {location.location_name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* Quest length selection dropdown */}
+      {/* Quest length selection dropdown */}
+      <div>
         {selectedLocation && (
-          <>
-          <label
-            htmlFor="quest-length-dropdown"
-            className="block text-sm lg:text-lg font-bold text-gray-300 mt-4"
-          >
-            Choose Quest Length:
-          </label>
-          <select
-            id="quest-length-dropdown"
-            value={selectedLocation.questLength}
-            onChange={handleQuestLengthChange}
-            className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
-          >
-            <option value="short">Short</option>
-            <option value="medium">Medium</option>
-            <option value="long">Long</option>
-          </select>
+          <div>
+            <label
+              htmlFor="quest-length-dropdown"
+              className="block text-sm lg:text-lg font-bold text-gray-300 lg:mt-4 mb-2"
+            >
+              Choose Quest Length:
+            </label>
+            <select
+              id="quest-length-dropdown"
+              value={selectedLocation.questLength}
+              onChange={handleQuestLengthChange}
+              className="bg-gray-700 text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+            >
+              <option value="short">Short</option>
+              <option value="medium">Medium</option>
+              <option value="long">Long</option>
+            </select>
 
-          {/* Displaying location-specific details */}
+            {/* Displaying location-specific details */}
 
-        <div className="text-gray-400 max-w-52">
-        <p>Do bring: {selectedLocation.preferredDamage} </p>
-        <p>Avoid: {selectedLocation.avoidDamage} </p>
-        </div>
-        </>
-      )}
+            <div className="text-gray-400 max-w-52 hidden md:flex">
+              <p>Do bring: {selectedLocation.preferredDamage} </p>
+              <p>Avoid: {selectedLocation.avoidDamage} </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

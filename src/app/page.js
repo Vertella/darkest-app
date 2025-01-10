@@ -7,7 +7,6 @@ export default function Home() {
     <div>
       <Navbar />
       <PartyPlanner />
-      <Adventurers />
     </div>
   );
 }

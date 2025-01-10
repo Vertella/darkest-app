@@ -135,24 +135,25 @@ export default function PartyPlannerPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950">
-     
-
-      <main className="flex-grow container mx-auto p-6">
+      <main className="flex-grow container sm:mx-auto pt-2 sm:p-6">
         <DragDropContext
           onDragStart={handleOnDragStart}
           onDragEnd={handleOnDragEnd}
         >
-          <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-2 sm:gap-4">
             <div className="flex flex-col w-full md:w-2/3">
               <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg w-full">
-                <Location
-                  selectedLocation={selectedLocation}
-                  setSelectedLocation={(location) =>
-                    setSelectedLocation(location)
-                  }
-                  setQuestLength={setQuestLength}
-                  locations={locations}
-                />
+                <div className=" flex flex-row w-full">
+                  <Location
+                    selectedLocation={selectedLocation}
+                    setSelectedLocation={(location) =>
+                      setSelectedLocation(location)
+                    }
+                    setQuestLength={setQuestLength}
+                    locations={locations}
+                  />
+                </div>
+
                 <div className="flex flex-col">
                   <h1 className=" text-center font-bold text-base md:text-2xl md:pt-4 text-white">
                     {selectedLocation
@@ -168,16 +169,21 @@ export default function PartyPlannerPage() {
                   />
                 </div>
               </div>
+              <div className="hidden sm:flex">
 
               <LocationPartyAnalysis
                 selectedLocation={selectedLocation}
                 party={party}
                 questLength={questLength}
+                className="hidden sm:flex"
               />
               <BuildDisplay party={party} className="text-white" />
+              </div>
             </div>
+
+
             {/* Adventurers Droppable List */}
-            <div className="md: w-1/3">
+            <div className="flex flex-col sm:w-1/3">
               <button
                 className="md:hidden bg-zinc-700 text-white p-2 rounded-lg mb-2 flex items-center justify-center"
                 onClick={toggleMobileMenu}

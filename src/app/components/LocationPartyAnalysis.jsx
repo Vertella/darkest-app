@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
   return (
-    <div className="mt-6 bg-zinc-800 p-4 rounded-lg shadow-md w-full">
+    <div className="mt-2 md:mt-6 bg-zinc-800 p-2 sm:p-4 rounded-lg shadow-md w-full">
       <h2 className="text-xl text-white font-bold">Summary</h2>
 
       {selectedLocation ? (
