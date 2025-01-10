@@ -143,7 +143,7 @@ export default function PartyPlannerPage() {
           <div className="flex flex-col md:flex-row gap-2 sm:gap-4">
             <div className="flex flex-col w-full md:w-2/3">
               <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg w-full">
-                <div className=" flex flex-row w-full">
+                <div className=" flex flex-row w-grow">
                   <Location
                     selectedLocation={selectedLocation}
                     setSelectedLocation={(location) =>
@@ -169,7 +169,7 @@ export default function PartyPlannerPage() {
                   />
                 </div>
               </div>
-              <div className="hidden sm:flex">
+              <div className="hidden sm:flex flex-col">
 
               <LocationPartyAnalysis
                 selectedLocation={selectedLocation}

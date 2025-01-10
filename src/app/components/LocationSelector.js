@@ -22,7 +22,7 @@ const Location = ({
   };
 
   return (
-    <div className="flex flex-row md:flex-col w-full bg-zinc-800 p-4 rounded-lg shadow-md mb-4 justify-center gap-2">
+    <div className="flex flex-row sm:flex-col w-full sm:w-auto bg-zinc-800 p-4 rounded-lg shadow-md mb-4 justify-center gap-2">
       {/* Location selection dropdown */}
       <div>
         <label
@@ -35,7 +35,7 @@ const Location = ({
           id="location-dropdown"
           value={selectedLocation ? selectedLocation.location_name : ""}
           onChange={handleLocationChange}
-          className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2 w-full"
+          className="bg-gray-700 text-sm lg:text-lg text-gray-300 border border-gray-600 rounded-lg p-2"
         >
           <option value="" disabled>
             Select a destination
@@ -49,7 +49,7 @@ const Location = ({
       </div>
 
       {/* Quest length selection dropdown */}
-      <div>
+      <div className="">
         {selectedLocation && (
           <div>
             <label
@@ -71,7 +71,7 @@ const Location = ({
 
             {/* Displaying location-specific details */}
 
-            <div className="text-gray-400 max-w-52 hidden md:flex">
+            <div className="text-gray-400 max-w-52 hidden md:block">
               <p>Do bring: {selectedLocation.preferredDamage} </p>
               <p>Avoid: {selectedLocation.avoidDamage} </p>
             </div>
