@@ -134,7 +134,7 @@ export default function PartyPlannerPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-950">
+    <div className="flex flex-col min-h-screen bg-zinc-950 font-mono">
       <main className="flex-grow container sm:mx-auto pt-2 sm:p-6">
         <DragDropContext
           onDragStart={handleOnDragStart}
