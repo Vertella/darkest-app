@@ -140,8 +140,8 @@ export default function PartyPlannerPage() {
           onDragStart={handleOnDragStart}
           onDragEnd={handleOnDragEnd}
         >
-          <div className="flex flex-col md:flex-row gap-2 sm:gap-4">
-            <div className="flex flex-col w-full md:w-2/3">
+          <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+            <div className="flex flex-col w-full lg:w-2/3 ">
               <div className="flex flex-col md:flex-row bg-zinc-800 rounded-lg w-full">
                 <div className=" flex flex-row w-grow">
                   <Location

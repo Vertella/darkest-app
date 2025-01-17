@@ -1,6 +1,26 @@
 import React, { useEffect, useState } from "react";
+import HighlightWord from "./HighlightWord";
 
 const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
+  const colourSentence = ({ sentence = "", word = "" }) => {
+    const regEx = new RegExp(`(${word})`, "gi");
+    const parts = sentence.split(regEx);
+
+    return (
+      <span>
+        {parts.map((part, index) =>
+          regEx.test(part) ? (
+            <span key={index} className="text-red-500">
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </span>
+    );
+  };
+
   return (
     <div className="mt-2 md:mt-6 bg-zinc-800 p-2 sm:p-4 rounded-lg shadow-md w-full">
       <h2 className="text-xl text-white font-light italic">Summary</h2>
@@ -35,11 +55,17 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
               </p>
             )}
             <div className="flex flex-col justify-content-center px-2">
-              <div className="text-gray-300 text-center p-2">{selectedLocation.notes} </div>
 
+              <div className="text-gray-300 text-center p-2">
+              <HighlightWord
+                sentence={selectedLocation.notes}
+                highlights={[
+                  { target: "bleed", className: "text-red-500" },
+                  { target: "blight", className: "text-green-500" },
+                ]}
+              /></div>
               <div className="mt-4 p-2 text-gray-300 min-w-fit">
                 <h2 className="text-lg font-semibold text-white">
-                  {" "}
                   Relationships
                 </h2>
                 {party.length > 0 ? (
@@ -49,7 +75,7 @@ const LocationPartyAnalysis = ({ selectedLocation, party, questLength }) => {
                         <li key={index}>
                           <div>
                             {adventurer.class} likes:{" "}
-                            {adventurer.compatibility.compatibleWith.join(" ")}
+                            {adventurer.compatibility.compatibleWith.join(", ")}
                           </div>
                         </li>
                       ) : (
