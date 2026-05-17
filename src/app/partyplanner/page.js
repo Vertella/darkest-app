@@ -63,7 +63,7 @@ export default function PartyPlannerPage() {
         // Swapping within the party
         const updatedParty = Array.from(party);
         // Swap the dragged and destination adventurers
-        const [movedItem] = updatedParty[sourceIndex];
+        const movedItem = updatedParty[sourceIndex];
         updatedParty[sourceIndex] = updatedParty[destinationIndex];
         updatedParty[destinationIndex] = [movedItem];
         console.log("Swapped party:", updatedParty);
