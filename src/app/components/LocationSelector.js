@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Range } from "react-range";
+
 
 const Location = ({
   selectedLocation,
@@ -7,6 +9,7 @@ const Location = ({
   locations,
   setQuestLength,
 }) => {
+  const [values, setValues] = useState([3]);
   const handleLocationChange = (event) => {
     const selectedLocationName = event.target.value;
     const location = locations.find(
@@ -58,7 +61,8 @@ const Location = ({
             >
               Choose Quest Length:
             </label>
-            <select
+
+           {/*  <select
               id="quest-length-dropdown"
               value={selectedLocation.questLength}
               onChange={handleQuestLengthChange}
@@ -67,7 +71,39 @@ const Location = ({
               <option value="short">Short</option>
               <option value="medium">Medium</option>
               <option value="long">Long</option>
-            </select>
+            </select> */}
+
+            <Range
+            step={3}
+            min={0}
+            max={3}
+            values={values} 
+            onChange= {setValues}
+            renderTrack={({ props, children }) => (
+                        <div
+                            {...props}
+                            style={{
+                                ...props.style,
+                                height: "6px",
+                                width: "100%",
+                                backgroundColor: "#ccc",
+                            }}
+                        >
+                            {children}
+                        </div>
+                    )}
+                    renderThumb={({ props }) => (
+                        <div
+                            {...props}
+                            style={{
+                                ...props.style,
+                                height: "20px",
+                                width: "20px",
+                                borderRadius: "50%",
+                                backgroundColor: "#0070f3",
+                            }}
+                        />
+                    )} />
 
             {/* Displaying location-specific details */}
 

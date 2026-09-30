@@ -8,6 +8,7 @@ import Location from "../components/LocationSelector";
 import LocationPartyAnalysis from "../components/LocationPartyAnalysis";
 import fetchLocationData from "../utils/locationDataFetcher";
 import BuildDisplay from "../components/BuildDisplay";
+import { Range } from "react-range";
 
 export default function PartyPlannerPage() {
   const [adventurerList, setAdventurerList] = useState([]);
@@ -18,6 +19,7 @@ export default function PartyPlannerPage() {
   const [draggedAdventurerSlots, setDraggedAdventurerSlots] = useState([]);
   const [highlightedSlots, setHighlightedSlots] = useState([]);
   const [isMobileMenuVisible, setMobileMenuVisible] = useState(false);
+  const [values, setValues] = useState([50]);
 
   useEffect(() => {
     const fetchData = async () => {

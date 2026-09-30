@@ -14,11 +14,13 @@ const SimpleAdventurerCard = ({ adventurer }) => {
     : [];
 
   const getSpecializationImage = (spec) => {
-    try {
-      return require(`/public/effects/${spec}.png`);
-    } catch (error) {
+    const imageSpecs = ["blight", "bleed"];
+
+    if (!imageSpecs.includes(spec)) {
       return null;
     }
+    
+      return `/effects/${spec}.png`;
   };
 
   return (
